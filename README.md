@@ -96,6 +96,10 @@ Type: {loaders: [Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/
 
 Type: function (): [Block](#block)
 
+## Other useful webpack blocks
+
+- [`webpack-blocks-split-vendor`](https://github.com/diegohaz/webpack-blocks-split-vendor)
+
 ## License
 
 MIT © [Diego Haz](https://github.com/diegohaz)
