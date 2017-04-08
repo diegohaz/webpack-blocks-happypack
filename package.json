@@ -1,7 +1,7 @@
 {
   "name": "webpack-blocks-happypack",
   "version": "0.0.1",
-  "description": "A webpack block that adds happypack support.",
+  "description": "A webpack block that adds happypack support to your webpack config.",
   "license": "MIT",
   "repository": "diegohaz/webpack-blocks-happypack",
   "main": "index.js",
@@ -40,17 +40,23 @@
     "build": "src"
   },
   "jest": {
-    "testRegex": "/test/.*",
+    "testRegex": "/test/.*test\\.js$",
     "testEnvironment": "node"
   },
   "keywords": [
-    "webpack-blocks-happypack"
+    "webpack-blocks-happypack",
+    "webpack-blocks",
+    "webpack",
+    "happypack"
   ],
   "dependencies": {
     "happypack": "^3.0.3",
     "lodash": "^4.17.4"
   },
   "devDependencies": {
+    "@webpack-blocks/babel6": "^0.4.1",
+    "@webpack-blocks/css-modules": "^0.4.0",
+    "@webpack-blocks/extract-text2": "^0.4.0",
     "@webpack-blocks/webpack2": "^0.4.0",
     "babel-cli": "^6.18.0",
     "babel-eslint": "^7.1.1",
@@ -68,6 +74,7 @@
     "jest-cli": "^19.0.1",
     "npm-watch": "^0.1.7",
     "opn-cli": "^3.1.0",
+    "pretty-format": "^19.0.0",
     "rimraf": "^2.6.1"
   },
   "peerDependencies": {

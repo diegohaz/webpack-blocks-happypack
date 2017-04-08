@@ -1,0 +1,180 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`happypack babel 1`] = `
+Object {
+  "module": Object {
+    "loaders": Array [],
+    "rules": Array [
+      Object {
+        "exclude": Array [
+          /node_modules/,
+        ],
+        "test": /\\\\\\.\\(js\\|jsx\\)\\$/,
+        "use": Array [
+          "happypack/loader?id=js-jsx-foo",
+        ],
+      },
+    ],
+  },
+  "plugins": Array [
+    HappyPlugin {
+      "config": Object {
+        "cache": true,
+        "cacheContext": Object {
+          "env": "test",
+          "refresh": 0,
+        },
+        "compilerId": "default",
+        "enabled": true,
+        "id": "js-jsx-foo",
+        "loaders": Array [
+          "babel-loader?{\\"cacheDirectory\\":true}",
+        ],
+        "tempDir": ".happypack",
+        "threadPool": Object {
+          "compile": [Function],
+          "isRunning": [Function],
+          "size": 3,
+          "start": [Function],
+          "stop": [Function],
+        },
+        "threads": 3,
+        "verbose": true,
+      },
+      "id": "js-jsx-foo",
+      "name": "HappyPack",
+      "state": Object {
+        "baseLoaderRequest": "",
+        "debug": false,
+        "foregroundThreadPool": null,
+        "loaders": Array [],
+        "started": false,
+        "verbose": false,
+      },
+    },
+  ],
+}
+`;
+
+exports[`happypack cssModules 1`] = `
+Object {
+  "module": Object {
+    "loaders": Array [],
+    "rules": Array [
+      Object {
+        "test": /\\\\\\.css\\$/,
+        "use": Array [
+          "style-loader",
+          "happypack/loader?id=css-foo",
+        ],
+      },
+    ],
+  },
+  "plugins": Array [
+    HappyPlugin {
+      "config": Object {
+        "cache": true,
+        "cacheContext": Object {
+          "env": "test",
+          "refresh": 0,
+        },
+        "compilerId": "default",
+        "enabled": true,
+        "id": "css-foo",
+        "loaders": Array [
+          "css-loader?importLoaders=1&localIdentName=[name]--[local]--[hash:base64:5]&modules",
+        ],
+        "tempDir": ".happypack",
+        "threadPool": Object {
+          "compile": [Function],
+          "isRunning": [Function],
+          "size": 3,
+          "start": [Function],
+          "stop": [Function],
+        },
+        "threads": 3,
+        "verbose": true,
+      },
+      "id": "css-foo",
+      "name": "HappyPack",
+      "state": Object {
+        "baseLoaderRequest": "",
+        "debug": false,
+        "foregroundThreadPool": null,
+        "loaders": Array [],
+        "started": false,
+        "verbose": false,
+      },
+    },
+  ],
+}
+`;
+
+exports[`happypack extractText 1`] = `
+Object {
+  "module": Object {
+    "loaders": Array [
+      Object {
+        "loaders": Array [
+          "style-loader",
+          "css-loader?importLoaders=1&localIdentName=[name]--[local]--[hash:base64:5]&modules",
+        ],
+        "test": /\\\\\\.css\\$/,
+      },
+    ],
+    "rules": Array [
+      Object {
+        "exclude": undefined,
+        "test": /\\\\\\.css\\$/,
+        "use": Array [
+  "foo",
+  "style-loader",
+  "happypack/loader?id=css-foo",
+],
+      },
+    ],
+  },
+  "plugins": Array [
+    ExtractTextPlugin {
+      "filename": "css/[name].[contenthash:8].css",
+      "id": 1,
+      "options": Object {},
+    },
+    HappyPlugin {
+      "config": Object {
+        "cache": true,
+        "cacheContext": Object {
+          "env": "test",
+          "refresh": 0,
+        },
+        "compilerId": "default",
+        "enabled": true,
+        "id": "css-foo",
+        "loaders": Array [
+          "css-loader?importLoaders=1&localIdentName=[name]--[local]--[hash:base64:5]&modules",
+        ],
+        "tempDir": ".happypack",
+        "threadPool": Object {
+          "compile": [Function],
+          "isRunning": [Function],
+          "size": 3,
+          "start": [Function],
+          "stop": [Function],
+        },
+        "threads": 3,
+        "verbose": true,
+      },
+      "id": "css-foo",
+      "name": "HappyPack",
+      "state": Object {
+        "baseLoaderRequest": "",
+        "debug": false,
+        "foregroundThreadPool": null,
+        "loaders": Array [],
+        "started": false,
+        "verbose": false,
+      },
+    },
+  ],
+}
+`;

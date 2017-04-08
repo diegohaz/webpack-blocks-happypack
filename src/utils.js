@@ -3,7 +3,19 @@ import crypto from 'crypto'
 import kebabCase from 'lodash/kebabCase'
 import flatten from 'lodash/flatten'
 import uniq from 'lodash/uniq'
-import type { Loader, Rule, Block } from './types'
+import type { BlockOptions, Loader, Rule, Block } from './types'
+
+export const createHappyConfig = (
+  { cache, cacheContext, refresh, ...happypackOptions }: BlockOptions = {}
+) => ({
+  ...happypackOptions,
+  cache: typeof cache !== 'undefined' ? cache : !process.env.DISABLE_HAPPY_CACHE,
+  cacheContext: {
+    env: process.env.NODE_ENV,
+    refresh: refresh || process.env.REFRESH_HAPPY_CACHE ? Math.random() : 0,
+    ...cacheContext,
+  },
+})
 
 export const createRuleHash = (rule: Rule): string =>
   crypto
@@ -25,7 +37,10 @@ export const getAllowedLoadersPattern = (allowedLoaders: Loader[]): RegExp =>
 export const extractLoaders = (rule: Rule): Loader[] =>
   flatten([]
     .concat(rule.loader || rule.loaders || rule.use || [])
-    .map(loader => loader.split('!'))
+    .map(loader => loader.loader || loader)
+    .map(loader => (
+      typeof loader === 'string' ? loader.split('!') : [].concat(loader)
+    ))
   )
 
 export const extractAllowedLoaders = (loaders: any, pattern: RegExp): Loader[] =>

@@ -1,4 +1,5 @@
 import {
+  createHappyConfig,
   createRuleHash,
   createRuleId,
   getRules,
@@ -7,6 +8,52 @@ import {
   extractAllowedLoaders,
   mergeRule,
 } from '../src/utils'
+
+describe('createHappyConfig', () => {
+  it('returns default config', () => {
+    const config = createHappyConfig()
+    expect(config).toEqual({
+      cache: true,
+      cacheContext: {
+        env: 'test',
+        refresh: 0,
+      },
+    })
+  })
+
+  it('defines custom cache', () => {
+    const config = createHappyConfig({ cache: false })
+    expect(config).toEqual(expect.objectContaining({ cache: false }))
+  })
+
+  it('defines custom cacheContext', () => {
+    const config = createHappyConfig({
+      cacheContext: {
+        foo: 'bar',
+      },
+    })
+    expect(config).toEqual(expect.objectContaining({
+      cacheContext: {
+        env: 'test',
+        refresh: 0,
+        foo: 'bar',
+      },
+    }))
+  })
+
+  it('defines random value to refresh cache', () => {
+    const config1 = createHappyConfig()
+    expect(config1.cacheContext.refresh).toBe(0)
+
+    const config2 = createHappyConfig({ refresh: true })
+    expect(config2.cacheContext.refresh).toBeDefined()
+    expect(config2.cacheContext.refresh).not.toBe(0)
+
+    const config3 = createHappyConfig({ refresh: true })
+    expect(config3.cacheContext.refresh).toBeDefined()
+    expect(config3.cacheContext.refresh).not.toBe(config2.cacheContext.refresh)
+  })
+})
 
 describe('createRuleHash', () => {
   it('returns rule hash', () => {
@@ -69,6 +116,12 @@ describe('extractLoaders', () => {
   it('returns rule.use', () => {
     expect(extractLoaders({ use: 'foo' })).toEqual(['foo'])
     expect(extractLoaders({ use: ['foo', 'bar'] })).toEqual(['foo', 'bar'])
+  })
+
+  it('returns rule.loader.loader', () => {
+    expect(extractLoaders({ loader: { loader: 'foo' } })).toEqual(['foo'])
+    expect(extractLoaders({ loader: { loader: 'foo!bar' } })).toEqual(['foo', 'bar'])
+    expect(extractLoaders({ loader: { loader: ['foo', 'bar'] } })).toEqual(['foo', 'bar'])
   })
 
   it('returns empty array', () => {

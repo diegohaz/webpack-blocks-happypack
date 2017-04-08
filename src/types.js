@@ -18,3 +18,14 @@ export type Block = {
     rules?: Rule[],
   },
 }
+
+/** */
+export type BlockOptions = {
+  loaders?: string[],
+  refresh?: boolean,
+  cache?: any,
+  cacheContext?: {},
+}
+
+/** */
+export type WebpackBlock = () => Block
