@@ -128,13 +128,13 @@ Object {
         "test": /\\\\\\.css\\$/,
         "use": Array [
           Object {
-            "loader": "/Users/diegohaz/Projects/webpack-blocks-happypack/node_modules/extract-text-webpack-plugin/loader.js",
-            "options": Object {
-              "id": 1,
-              "omit": 1,
-              "remove": true,
-            },
-          },
+  "loader": "foo",
+  "options": Object {
+    "id": 1,
+    "omit": 1,
+    "remove": true,
+  },
+},
           Object {
             "loader": "style-loader",
           },

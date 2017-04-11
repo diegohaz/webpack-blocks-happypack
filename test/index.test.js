@@ -17,12 +17,11 @@ jest.mock('../src/utils', () => ({
 const extractTextPath = require.resolve('extract-text-webpack-plugin/loader')
 
 expect.addSnapshotSerializer({
-  test: values => Array.isArray(values) && values.indexOf(extractTextPath) >= 0,
-  print: values => prettyFormat([
-    ...values.slice(0, values.indexOf(extractTextPath)),
-    'foo',
-    ...values.slice(values.indexOf(extractTextPath) + 1),
-  ]),
+  test: value => value.loader && value.loader === extractTextPath,
+  print: value => prettyFormat({
+    ...value,
+    loader: 'foo',
+  }),
 })
 
 describe('happypack', () => {
