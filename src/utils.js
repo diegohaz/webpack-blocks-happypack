@@ -37,7 +37,6 @@ export const getAllowedLoadersPattern = (allowedLoaders: Loader[]): RegExp =>
 export const extractLoaders = (rule: Rule): Loader[] =>
   flatten([]
     .concat(rule.loader || rule.loaders || rule.use || [])
-    .map(loader => loader.loader || loader)
     .map(loader => (
       typeof loader === 'string' ? loader.split('!') : [].concat(loader)
     ))

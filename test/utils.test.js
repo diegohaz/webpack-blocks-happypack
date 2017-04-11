@@ -119,9 +119,12 @@ describe('extractLoaders', () => {
   })
 
   it('returns rule.loader.loader', () => {
-    expect(extractLoaders({ loader: { loader: 'foo' } })).toEqual(['foo'])
-    expect(extractLoaders({ loader: { loader: 'foo!bar' } })).toEqual(['foo', 'bar'])
-    expect(extractLoaders({ loader: { loader: ['foo', 'bar'] } })).toEqual(['foo', 'bar'])
+    expect(extractLoaders({ loader: { loader: 'foo' } }))
+      .toEqual([{ loader: 'foo' }])
+    expect(extractLoaders({ loader: { loader: 'foo!bar' } }))
+      .toEqual([{ loader: 'foo!bar' }])
+    expect(extractLoaders({ loader: { loader: ['foo', 'bar'] } }))
+      .toEqual([{ loader: ['foo', 'bar'] }])
   })
 
   it('returns empty array', () => {
