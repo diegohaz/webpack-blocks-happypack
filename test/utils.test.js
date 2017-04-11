@@ -206,9 +206,12 @@ describe('mergeRule', () => {
   test('with extract text loader', () => {
     const rule = {
       test: /\.css$/,
-      loader: { loader: 'css-modules' },
+      loaders: [
+        { loader: 'css-loader', foo: 'bar' },
+        { loader: 'postcss-loader' },
+      ],
     }
-    const originalLoaders = [{ loader: 'css-loader' }]
+    const originalLoaders = rule.loaders
     const allowedLoaders = ['css-loader']
     const happypackLoaderId = 'css-123'
     expect(mergeRule(rule, originalLoaders, allowedLoaders, happypackLoaderId))
@@ -216,6 +219,9 @@ describe('mergeRule', () => {
         test: /\.css$/,
         use: [{
           loader: 'happypack/loader?id=css-123',
+          foo: 'bar',
+        }, {
+          loader: 'postcss-loader',
         }],
       })
   })

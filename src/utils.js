@@ -61,7 +61,7 @@ export const mergeRule = (
 
       if (originalLoader.loader && allowedLoaders.indexOf(originalLoader.loader) >= 0) {
         // ExtractTextPlugin
-        finalLoaders.push({ loader: happyLoader })
+        finalLoaders.push({ ...originalLoader, loader: happyLoader })
       } else if (allowedLoaders.indexOf(originalLoader) >= 0) {
         finalLoaders.push(happyLoader)
       } else {
