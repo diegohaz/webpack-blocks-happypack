@@ -189,3 +189,23 @@ Object {
   ],
 }
 `;
+
+exports[`happypack not allowed loaders 1`] = `
+Object {
+  "module": Object {
+    "loaders": Array [],
+    "rules": Array [
+      Object {
+        "exclude": Array [
+          /node_modules/,
+        ],
+        "loaders": Array [
+          "babel-loader?{\\"cacheDirectory\\":true}",
+        ],
+        "test": /\\\\\\.\\(js\\|jsx\\)\\$/,
+      },
+    ],
+  },
+  "plugins": Array [],
+}
+`;

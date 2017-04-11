@@ -18,7 +18,7 @@ const threadPool = new HappyPack.ThreadPool({ size: os.cpus().length })
 
 const happifyBlock = (
   block: WebpackBlock,
-  { loaders = [], ...happypackOptions }: BlockOptions
+  { loaders, ...happypackOptions }: BlockOptions
 ): WebpackBlock => (...args): Block => {
   const compiledBlock = block(...args)
   const originalRules = getRules(compiledBlock)
@@ -31,10 +31,11 @@ const happifyBlock = (
     const originalLoaders = extractLoaders(rule)
     const allowedLoaders = extractAllowedLoaders(
       originalLoaders,
+      // eslint-disable-next-line flowtype-errors/show-errors
       getAllowedLoadersPattern(loaders)
     )
 
-    if (!allowedLoaders) return rule
+    if (!allowedLoaders.length) return rule
 
     const id = createRuleId(rule, createRuleHash(rule))
 

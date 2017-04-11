@@ -52,4 +52,15 @@ describe('happypack', () => {
     ])
     expect(config).toMatchSnapshot()
   })
+
+  test('not allowed loaders', () => {
+    const config = createConfig.vanilla([
+      happypack([
+        babel(),
+      ], {
+        loaders: ['css-loader'],
+      }),
+    ])
+    expect(config).toMatchSnapshot()
+  })
 })
