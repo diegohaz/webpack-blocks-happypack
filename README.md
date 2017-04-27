@@ -102,7 +102,8 @@ Type: function (): [Block](#block)
 
 ## Other useful webpack blocks
 
--   [`webpack-blocks-split-vendor`](https://github.com/diegohaz/webpack-blocks-split-vendor)
+- [`webpack-blocks-split-vendor`](https://github.com/diegohaz/webpack-blocks-split-vendor)
+- [`webpack-blocks-server-source-map`](https://github.com/diegohaz/webpack-blocks-server-source-map)
 
 ## License
 
