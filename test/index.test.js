@@ -17,7 +17,7 @@ jest.mock('../src/utils', () => ({
 const extractTextPath = require.resolve('extract-text-webpack-plugin/loader')
 
 expect.addSnapshotSerializer({
-  test: value => value.loader && value.loader === extractTextPath,
+  test: value => value && value.loader && value.loader === extractTextPath,
   print: value => prettyFormat({
     ...value,
     loader: 'foo',
