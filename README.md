@@ -74,8 +74,8 @@ This webpack block adds `HappyPack` plugins with proper IDs and replaces loaders
 **Parameters**
 
 -   `blocks` **[Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[WebpackBlock](#webpackblock)>** 
--   `$1` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)**  (optional, default `{}`)
-    -   `$1.loaders`   (optional, default `['babel-loader', 'css-loader']`)
+-   `$1` **any**  (optional, default `{}`)
+    -   `$1.loaders`   (optional, default `['babel-loader','css-loader']`)
     -   `$1.happypackOptions` **...any** 
 
 Returns **[Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[Block](#block)>** 
@@ -88,13 +88,34 @@ Type: [string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference
 
 Type: {test: [RegExp](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp), loader: ([Loader](#loader) \| [Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[Loader](#loader)>)?, loaders: ([Loader](#loader) \| [Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[Loader](#loader)>)?, use: ([Loader](#loader) \| [Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[Loader](#loader)>)?}
 
+**Properties**
+
+-   `test` **[RegExp](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp)** 
+-   `loader` **([Loader](#loader) \| [Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[Loader](#loader)>)?** 
+-   `loaders` **([Loader](#loader) \| [Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[Loader](#loader)>)?** 
+-   `use` **([Loader](#loader) \| [Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[Loader](#loader)>)?** 
+
 ### Block
 
 Type: {plugins: [Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;any>?, module: {loaders: [Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[Rule](#rule)>?, rules: [Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[Rule](#rule)>?}}
 
+**Properties**
+
+-   `plugins` **[Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;any>?** 
+-   `module` **{loaders: [Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[Rule](#rule)>?, rules: [Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[Rule](#rule)>?}** 
+-   `module.loaders` **[Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[Rule](#rule)>?** 
+-   `module.rules` **[Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[Rule](#rule)>?** 
+
 ### BlockOptions
 
 Type: {loaders: [Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)>?, refresh: [boolean](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?, cache: any?, cacheContext: {}?}
+
+**Properties**
+
+-   `loaders` **[Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)>?** 
+-   `refresh` **[boolean](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?** 
+-   `cache` **any?** 
+-   `cacheContext` **{}?** 
 
 ### WebpackBlock
 
@@ -102,8 +123,8 @@ Type: function (): [Block](#block)
 
 ## Other useful webpack blocks
 
-- [`webpack-blocks-split-vendor`](https://github.com/diegohaz/webpack-blocks-split-vendor)
-- [`webpack-blocks-server-source-map`](https://github.com/diegohaz/webpack-blocks-server-source-map)
+-   [`webpack-blocks-split-vendor`](https://github.com/diegohaz/webpack-blocks-split-vendor)
+-   [`webpack-blocks-server-source-map`](https://github.com/diegohaz/webpack-blocks-server-source-map)
 
 ## License
 
