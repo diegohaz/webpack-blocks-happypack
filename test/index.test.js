@@ -1,7 +1,7 @@
-import { createConfig } from '@webpack-blocks/webpack2'
-import babel from '@webpack-blocks/babel6'
-import cssModules from '@webpack-blocks/css-modules'
-import extractText from '@webpack-blocks/extract-text2'
+import { createConfig } from '@webpack-blocks/webpack'
+import babel from '@webpack-blocks/babel'
+import { css } from '@webpack-blocks/assets'
+import extractText from '@webpack-blocks/extract-text'
 import prettyFormat from 'pretty-format'
 import happypack from '../src'
 
@@ -14,7 +14,7 @@ jest.mock('../src/utils', () => ({
   createRuleHash: () => 'foo',
 }))
 
-const extractTextPath = require.resolve('extract-text-webpack-plugin/loader')
+const extractTextPath = require.resolve('extract-text-webpack-plugin/dist/loader')
 
 expect.addSnapshotSerializer({
   test: value => value && value.loader && value.loader === extractTextPath,
@@ -26,7 +26,7 @@ expect.addSnapshotSerializer({
 
 describe('happypack', () => {
   test('babel', () => {
-    const config = createConfig.vanilla([
+    const config = createConfig([
       happypack([
         babel(),
       ]),
@@ -35,17 +35,17 @@ describe('happypack', () => {
   })
 
   test('cssModules', () => {
-    const config = createConfig.vanilla([
+    const config = createConfig([
       happypack([
-        cssModules(),
+        css.modules(),
       ]),
     ])
     expect(config).toMatchSnapshot()
   })
 
   test('extractText', () => {
-    const config = createConfig.vanilla([
-      cssModules(),
+    const config = createConfig([
+      css(),
       happypack([
         extractText(),
       ]),
@@ -54,7 +54,7 @@ describe('happypack', () => {
   })
 
   test('not allowed loaders', () => {
-    const config = createConfig.vanilla([
+    const config = createConfig([
       happypack([
         babel(),
       ], {

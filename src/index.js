@@ -1,7 +1,7 @@
 // @flow
 import os from 'os'
 import HappyPack from 'happypack'
-import { group } from '@webpack-blocks/webpack2'
+import { group } from '@webpack-blocks/webpack'
 import type { Block, BlockOptions, WebpackBlock } from './types'
 import {
   createHappyConfig,
@@ -13,17 +13,25 @@ import {
   extractAllowedLoaders,
   mergeRule,
 } from './utils'
+import webpackMerge from 'webpack-merge'
 
 const threadPool = new HappyPack.ThreadPool({ size: os.cpus().length })
 
+
+// Add HappyPack to a block
+// Input: webpack block function -- (context, utils) => prevConfig => newConfig
+// Return new block function
 const happifyBlock = (
   block: WebpackBlock,
   { loaders, ...happypackOptions }: BlockOptions
-): WebpackBlock => (...args): Block => {
-  const compiledBlock = block(...args)
+): WebpackBlock => (context, utils): Block => prevConfig => {
+
+  console.log('COUNT')
+
+  const compiledBlock = block(context, utils)(prevConfig)
   const originalRules = getRules(compiledBlock)
 
-  if (!originalRules) return compiledBlock
+  if (!originalRules) return prevConfig;
 
   const plugins = compiledBlock.plugins || []
 
@@ -75,9 +83,7 @@ const happypack = (
   return group(blocks.map(block =>
     Object.assign(happifyBlock(block, options), {
       pre: block.pre,
-      post: []
-        .concat(block.post || [])
-        .map(postHook => happifyBlock(postHook, options)),
+      post: block.post,
     })
   ))
 }
