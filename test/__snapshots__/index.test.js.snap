@@ -53,6 +53,18 @@ Object {
       },
     },
   ],
+  "resolve": Object {
+    "extensions": Array [
+      ".js",
+      ".json",
+    ],
+  },
+  "stats": Object {
+    "children": false,
+    "chunks": false,
+    "modules": false,
+    "reasons": false,
+  },
 }
 `;
 
@@ -107,6 +119,18 @@ Object {
       },
     },
   ],
+  "resolve": Object {
+    "extensions": Array [
+      ".js",
+      ".json",
+    ],
+  },
+  "stats": Object {
+    "children": false,
+    "chunks": false,
+    "modules": false,
+    "reasons": false,
+  },
 }
 `;
 
@@ -140,17 +164,13 @@ Object {
           },
           Object {
             "loader": "happypack/loader?id=css-foo",
+            "options": Object {},
           },
         ],
       },
     ],
   },
   "plugins": Array [
-    ExtractTextPlugin {
-      "filename": "css/[name].[contenthash:8].css",
-      "id": 1,
-      "options": Object {},
-    },
     HappyPlugin {
       "config": Object {
         "cache": true,
@@ -186,7 +206,24 @@ Object {
         "verbose": false,
       },
     },
+    ExtractTextPlugin {
+      "filename": "css/[name].[contenthash:8].css",
+      "id": 1,
+      "options": Object {},
+    },
   ],
+  "resolve": Object {
+    "extensions": Array [
+      ".js",
+      ".json",
+    ],
+  },
+  "stats": Object {
+    "children": false,
+    "chunks": false,
+    "modules": false,
+    "reasons": false,
+  },
 }
 `;
 
@@ -207,5 +244,17 @@ Object {
     ],
   },
   "plugins": Array [],
+  "resolve": Object {
+    "extensions": Array [
+      ".js",
+      ".json",
+    ],
+  },
+  "stats": Object {
+    "children": false,
+    "chunks": false,
+    "modules": false,
+    "reasons": false,
+  },
 }
 `;
