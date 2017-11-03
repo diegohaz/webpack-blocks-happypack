@@ -13,7 +13,6 @@ import {
   extractAllowedLoaders,
   mergeRule,
 } from './utils'
-import webpackMerge from 'webpack-merge'
 
 const threadPool = new HappyPack.ThreadPool({ size: os.cpus().length })
 
@@ -25,13 +24,10 @@ const happifyBlock = (
   block: WebpackBlock,
   { loaders, ...happypackOptions }: BlockOptions
 ): WebpackBlock => (context, utils): Block => prevConfig => {
-
-  console.log('COUNT')
-
   const compiledBlock = block(context, utils)(prevConfig)
   const originalRules = getRules(compiledBlock)
 
-  if (!originalRules) return prevConfig;
+  if (!originalRules) return prevConfig
 
   const plugins = compiledBlock.plugins || []
 
