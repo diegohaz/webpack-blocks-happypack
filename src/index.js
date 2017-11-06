@@ -1,6 +1,8 @@
 // @flow
 import os from 'os'
 import HappyPack from 'happypack'
+import differenceWith from 'lodash/differenceWith'
+import isEqual from 'lodash/isEqual'
 import { group } from '@webpack-blocks/webpack'
 import webpackMerge from 'webpack-merge'
 import type { Block, BlockOptions, WebpackBlock } from './types'
@@ -26,19 +28,18 @@ const happifyBlock = (
   { loaders, ...happypackOptions }: BlockOptions
 ): WebpackBlock => (context, utils): Block => (prevConfig) => {
 
-  const baseConfig = {
-    module: {
-      rules: [],
-    },
-    plugins: [],
-  }
+  // Compile the inner block and identify any new rules that were added
+  const compiledBlock = block(context, utils)(prevConfig)
+  const originalRules = differenceWith(compiledBlock.module.rules, prevConfig.module.rules, isEqual)
 
-  const compiledBlock = block(context, utils)(baseConfig)
-  const originalRules = getRules(compiledBlock)
+  // No rules were added, so just return compiledBlock (which already incorporates prevConfig)
+  if (!originalRules.length) return compiledBlock
 
-  if (!originalRules) return webpackMerge.smart(prevConfig, compiledBlock)
-
+  // 'Clean' compiledBlock.module.rules to remove any new blocks - we'll modify and re-add those
+  // Also extract and remove compiledBlock.plugins
+  compiledBlock.module.rules = differenceWith(compiledBlock.module.rules, originalRules, isEqual)
   const plugins = compiledBlock.plugins || []
+  delete compiledBlock.plugins
 
   const rules = originalRules.map((rule) => {
     const originalLoaders = extractLoaders(rule)
@@ -65,14 +66,13 @@ const happifyBlock = (
   })
 
   const newConfig = {
-    ...compiledBlock,
     plugins,
     module: {
       rules,
     },
   }
 
-  return webpackMerge.smart(prevConfig, newConfig)
+  return webpackMerge.smart(compiledBlock, newConfig)
 }
 
 /** */

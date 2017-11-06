@@ -45,12 +45,10 @@ describe('happypack', () => {
 
   test('extractText', () => {
     const config = createConfig([
-      match('*.css', [
-        css.modules(),
         happypack([
+          css.modules(),
           extractText(),
         ]),
-      ])
     ])
     expect(config).toMatchSnapshot()
   })
