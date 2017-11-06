@@ -158,22 +158,12 @@ Object {
 exports[`happypack extractText 1`] = `
 Object {
   "module": Object {
-    "loaders": Array [
-      Object {
-        "loaders": Array [
-          "style-loader",
-          "css-loader?importLoaders=1&localIdentName=[name]--[local]--[hash:base64:5]&modules",
-        ],
-        "test": /\\\\\\.css\\$/,
-      },
-    ],
     "rules": Array [
       Object {
-        "exclude": undefined,
         "test": /\\\\\\.css\\$/,
         "use": Array [
           Object {
-  "loader": "foo",
+  "loader": "extract-text-plugin (replaced)",
   "options": Object {
     "id": 1,
     "omit": 1,
@@ -184,14 +174,21 @@ Object {
             "loader": "style-loader",
           },
           Object {
-            "loader": "happypack/loader?id=css-foo",
-            "options": Object {},
+            "loader": "happypack/loader",
+            "options": Object {
+              "id": "css-foo",
+            },
           },
         ],
       },
     ],
   },
   "plugins": Array [
+    ExtractTextPlugin {
+      "filename": "css/[name].[contenthash:8].css",
+      "id": 1,
+      "options": Object {},
+    },
     HappyPlugin {
       "config": Object {
         "cache": true,
@@ -203,7 +200,14 @@ Object {
         "enabled": true,
         "id": "css-foo",
         "loaders": Array [
-          "css-loader?importLoaders=1&localIdentName=[name]--[local]--[hash:base64:5]&modules",
+          Object {
+            "loader": "css-loader",
+            "options": Object {
+              "importLoaders": 1,
+              "localIdentName": "[name]--[local]--[hash:base64:5]",
+              "modules": true,
+            },
+          },
         ],
         "tempDir": ".happypack",
         "threadPool": Object {
@@ -226,11 +230,6 @@ Object {
         "started": false,
         "verbose": false,
       },
-    },
-    ExtractTextPlugin {
-      "filename": "css/[name].[contenthash:8].css",
-      "id": 1,
-      "options": Object {},
     },
   ],
   "resolve": Object {

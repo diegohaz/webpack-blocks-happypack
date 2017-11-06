@@ -87,10 +87,12 @@ const happypack = (
     return group(blocks)
   }
 
-  return group(blocks.map(block => Object.assign(happifyBlock(block, options), {
-    pre: block.pre,
-    post: [].concat(block.post || []).map(hook => happifyBlock(hook, options)),
-  })))
+  return group(blocks.map(block =>
+    Object.assign(happifyBlock(block, options), {
+      pre: block.pre,
+      post: [].concat(block.post || []).map(postHook => happifyBlock(postHook, options)),
+    })
+  ))
 }
 
 module.exports = happypack

@@ -14,13 +14,13 @@ jest.mock('../src/utils', () => ({
   createRuleHash: () => 'foo',
 }))
 
+// Prevent extract text plugin from being serialized with a local (device-specific) path
 const extractTextPath = require.resolve('extract-text-webpack-plugin/dist/loader')
-
 expect.addSnapshotSerializer({
   test: value => value && value.loader && value.loader === extractTextPath,
   print: value => prettyFormat({
     ...value,
-    loader: 'foo',
+    loader: 'extract-text-plugin (replaced)',
   }),
 })
 
@@ -45,10 +45,10 @@ describe('happypack', () => {
 
   test('extractText', () => {
     const config = createConfig([
-        happypack([
-          css.modules(),
-          extractText(),
-        ]),
+      css.modules(),
+      happypack([
+        extractText(),
+      ]),
     ])
     expect(config).toMatchSnapshot()
   })
