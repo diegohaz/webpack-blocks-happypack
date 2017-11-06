@@ -1,8 +1,11 @@
 // @flow
 import crypto from 'crypto'
 import kebabCase from 'lodash/kebabCase'
+import findIdx from 'lodash/findIndex'
 import flatten from 'lodash/flatten'
-import uniq from 'lodash/uniq'
+import isEqual from 'lodash/isEqual'
+import uniqWith from 'lodash/uniqWith'
+
 import type { BlockOptions, Loader, Rule, Block } from './types'
 
 export const createHappyConfig = (
@@ -44,8 +47,15 @@ export const extractLoaders = (rule: Rule): Loader[] =>
 
 export const extractAllowedLoaders = (loaders: any, pattern: RegExp): Loader[] =>
   loaders
-    .map(loader => loader.loader || loader)
-    .filter(loader => pattern.test(loader))
+    .map((useEntry) => {
+      if (typeof useEntry === 'string') return useEntry;
+      const rule = { loader: useEntry.loader }
+      if (useEntry.options) {
+        rule.options = useEntry.options
+      }
+      return rule
+    })
+    .filter(loader => pattern.test(loader.loader || loader))
 
 export const mergeRule = (
   rule: Rule,
@@ -55,22 +65,25 @@ export const mergeRule = (
 ): Rule => {
   const finalRule = {
     ...rule,
-    use: originalLoaders.reduce((finalLoaders, originalLoader): any[] => {
-      const happyLoader = `happypack/loader?id=${happypackLoaderId}`
+    use: originalLoaders.reduce((finalLoaders, original): any[] => {
+      const happyLoader = {
+        loader: 'happypack/loader',
+        options: { id: happypackLoaderId },
+      }
 
-      if (originalLoader.loader && allowedLoaders.indexOf(originalLoader.loader) >= 0) {
+      if (original.loader && findIdx(allowedLoaders, v => isEqual(v, original.loader)) >= 0) {
         // ExtractTextPlugin
-        finalLoaders.push({ ...originalLoader, loader: happyLoader })
-      } else if (allowedLoaders.indexOf(originalLoader) >= 0) {
+        finalLoaders.push({ ...original, ...happyLoader })
+      } else if (findIdx(allowedLoaders, v => isEqual(v, original)) >= 0) {
         finalLoaders.push(happyLoader)
       } else {
-        finalLoaders.push(originalLoader)
+        finalLoaders.push(original)
       }
       return finalLoaders
     }, []),
   }
 
-  finalRule.use = uniq(finalRule.use)
+  finalRule.use = uniqWith(finalRule.use, isEqual)
 
   delete finalRule.loader
   delete finalRule.loaders

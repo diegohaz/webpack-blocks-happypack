@@ -1,4 +1,4 @@
-import { createConfig } from '@webpack-blocks/webpack'
+import { createConfig, match } from '@webpack-blocks/webpack'
 import babel from '@webpack-blocks/babel'
 import { css } from '@webpack-blocks/assets'
 import extractText from '@webpack-blocks/extract-text'
@@ -45,10 +45,12 @@ describe('happypack', () => {
 
   test('extractText', () => {
     const config = createConfig([
-      css(),
-      happypack([
-        extractText(),
-      ]),
+      match('*.css', [
+        css.modules(),
+        happypack([
+          extractText(),
+        ]),
+      ])
     ])
     expect(config).toMatchSnapshot()
   })

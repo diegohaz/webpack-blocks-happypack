@@ -2,6 +2,7 @@
 import os from 'os'
 import HappyPack from 'happypack'
 import { group } from '@webpack-blocks/webpack'
+import webpackMerge from 'webpack-merge'
 import type { Block, BlockOptions, WebpackBlock } from './types'
 import {
   createHappyConfig,
@@ -23,11 +24,19 @@ const threadPool = new HappyPack.ThreadPool({ size: os.cpus().length })
 const happifyBlock = (
   block: WebpackBlock,
   { loaders, ...happypackOptions }: BlockOptions
-): WebpackBlock => (context, utils): Block => prevConfig => {
-  const compiledBlock = block(context, utils)(prevConfig)
+): WebpackBlock => (context, utils): Block => (prevConfig) => {
+
+  const baseConfig = {
+    module: {
+      rules: [],
+    },
+    plugins: [],
+  }
+
+  const compiledBlock = block(context, utils)(baseConfig)
   const originalRules = getRules(compiledBlock)
 
-  if (!originalRules) return prevConfig
+  if (!originalRules) return webpackMerge.smart(prevConfig, compiledBlock)
 
   const plugins = compiledBlock.plugins || []
 
@@ -55,13 +64,15 @@ const happifyBlock = (
     return mergeRule(rule, originalLoaders, allowedLoaders, id)
   })
 
-  return {
+  const newConfig = {
     ...compiledBlock,
     plugins,
     module: {
       rules,
     },
   }
+
+  return webpackMerge.smart(prevConfig, newConfig)
 }
 
 /** */
@@ -76,12 +87,10 @@ const happypack = (
     return group(blocks)
   }
 
-  return group(blocks.map(block =>
-    Object.assign(happifyBlock(block, options), {
-      pre: block.pre,
-      post: block.post,
-    })
-  ))
+  return group(blocks.map(block => Object.assign(happifyBlock(block, options), {
+    pre: block.pre,
+    post: [].concat(block.post || []).map(hook => happifyBlock(hook, options)),
+  })))
 }
 
 module.exports = happypack
