@@ -48,7 +48,7 @@ export const extractLoaders = (rule: Rule): Loader[] =>
 export const extractAllowedLoaders = (loaders: any, pattern: RegExp): Loader[] =>
   loaders
     .map((useEntry) => {
-      if (typeof useEntry === 'string') return useEntry;
+      if (typeof useEntry === 'string') return useEntry
       const rule = { loader: useEntry.loader }
       if (useEntry.options) {
         rule.options = useEntry.options

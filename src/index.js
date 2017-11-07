@@ -10,7 +10,6 @@ import {
   createHappyConfig,
   createRuleHash,
   createRuleId,
-  getRules,
   getAllowedLoadersPattern,
   extractLoaders,
   extractAllowedLoaders,
@@ -27,7 +26,6 @@ const happifyBlock = (
   block: WebpackBlock,
   { loaders, ...happypackOptions }: BlockOptions
 ): WebpackBlock => (context, utils): Block => (prevConfig) => {
-
   // Compile the inner block and identify any new rules that were added
   const compiledBlock = block(context, utils)(prevConfig)
   const originalRules = differenceWith(compiledBlock.module.rules, prevConfig.module.rules, isEqual)

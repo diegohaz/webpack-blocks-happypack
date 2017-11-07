@@ -1,4 +1,4 @@
-import { createConfig, match } from '@webpack-blocks/webpack'
+import { createConfig } from '@webpack-blocks/webpack'
 import babel from '@webpack-blocks/babel'
 import { css } from '@webpack-blocks/assets'
 import extractText from '@webpack-blocks/extract-text'
