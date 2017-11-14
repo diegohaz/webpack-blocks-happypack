@@ -1,6 +1,6 @@
 {
   "name": "webpack-blocks-happypack",
-  "version": "0.1.3",
+  "version": "0.2.0",
   "description": "A webpack block that adds happypack support to your webpack config.",
   "license": "MIT",
   "repository": "diegohaz/webpack-blocks-happypack",
