@@ -86,7 +86,7 @@ Type: [string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference
 
 ### Rule
 
-Type: {test: [RegExp](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp), loader: ([Loader](#loader) \| [Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[Loader](#loader)>)?, loaders: ([Loader](#loader) \| [Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[Loader](#loader)>)?, use: ([Loader](#loader) \| [Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[Loader](#loader)>)?}
+Type: {test: [RegExp](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp), loader: ([Loader](#loader) \| [Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[Loader](#loader)>)?, loaders: ([Loader](#loader) \| [Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[Loader](#loader)>)?, use: ([Loader](#loader) \| [Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[Loader](#loader)>)?, options: [Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)?}
 
 **Properties**
 
@@ -94,6 +94,7 @@ Type: {test: [RegExp](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Re
 -   `loader` **([Loader](#loader) \| [Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[Loader](#loader)>)?** 
 -   `loaders` **([Loader](#loader) \| [Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[Loader](#loader)>)?** 
 -   `use` **([Loader](#loader) \| [Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[Loader](#loader)>)?** 
+-   `options` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)?** 
 
 ### Block
 
@@ -119,7 +120,7 @@ Type: {loaders: [Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/
 
 ### WebpackBlock
 
-Type: function (): [Block](#block)
+Type: function (context: any, utils: any): function (prevCongig: any): [Block](#block)
 
 ## Other useful webpack blocks
 
