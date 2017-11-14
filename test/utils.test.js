@@ -2,7 +2,6 @@ import {
   createHappyConfig,
   createRuleHash,
   createRuleId,
-  getRules,
   getAllowedLoadersPattern,
   extractLoaders,
   extractAllowedLoaders,
@@ -75,20 +74,6 @@ describe('createRuleId', () => {
   })
 })
 
-describe('getRules', () => {
-  it('returns module.loaders', () => {
-    expect(getRules({ module: { loaders: [1, 2, 3] } })).toEqual([1, 2, 3])
-  })
-
-  it('returns module.rules', () => {
-    expect(getRules({ module: { rules: [1, 2, 3] } })).toEqual([1, 2, 3])
-  })
-
-  it('returns undefined', () => {
-    expect(getRules({})).toBeUndefined()
-  })
-})
-
 describe('getAllowedLoadersPattern', () => {
   it('returns allowed loaders pattern', () => {
     const pattern = getAllowedLoadersPattern(['css-loader', 'babel-loader'])
@@ -156,7 +141,7 @@ describe('extractAllowedLoaders', () => {
       ['babel-loader', { loader: 'css-loader' }],
       pattern
     )
-    expect(allowedLoaders).toEqual(['babel-loader', 'css-loader'])
+    expect(allowedLoaders).toEqual(['babel-loader', { loader: 'css-loader' }])
   })
 })
 
@@ -172,7 +157,7 @@ describe('mergeRule', () => {
     expect(mergeRule(rule, originalLoaders, allowedLoaders, happypackLoaderId))
       .toEqual({
         test: /\.jsx?$/,
-        use: ['happypack/loader?id=jsx-123'],
+        use: [{ loader: 'happypack/loader', options: { id: 'jsx-123' } }],
       })
   })
 
@@ -187,7 +172,7 @@ describe('mergeRule', () => {
     expect(mergeRule(rule, originalLoaders, allowedLoaders, happypackLoaderId))
       .toEqual({
         test: /\.jsx?$/,
-        use: ['happypack/loader?id=jsx-123', 'css-loader'],
+        use: [{ loader: 'happypack/loader', options: { id: 'jsx-123' } }, 'css-loader'],
       })
   })
 
@@ -202,7 +187,7 @@ describe('mergeRule', () => {
     expect(mergeRule(rule, originalLoaders, allowedLoaders, happypackLoaderId))
       .toEqual({
         test: /\.jsx?$/,
-        use: ['happypack/loader?id=jsx-123'],
+        use: [{ loader: 'happypack/loader', options: { id: 'jsx-123' } }],
       })
   })
 
@@ -221,7 +206,8 @@ describe('mergeRule', () => {
       .toEqual({
         test: /\.css$/,
         use: [{
-          loader: 'happypack/loader?id=css-123',
+          loader: 'happypack/loader',
+          options: { id: 'css-123' },
           foo: 'bar',
         }, {
           loader: 'postcss-loader',

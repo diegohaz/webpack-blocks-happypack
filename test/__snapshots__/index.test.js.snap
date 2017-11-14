@@ -3,15 +3,17 @@
 exports[`happypack babel 1`] = `
 Object {
   "module": Object {
-    "loaders": Array [],
     "rules": Array [
       Object {
-        "exclude": Array [
-          /node_modules/,
-        ],
+        "exclude": /node_modules/,
         "test": /\\\\\\.\\(js\\|jsx\\)\\$/,
         "use": Array [
-          "happypack/loader?id=js-jsx-foo",
+          Object {
+            "loader": "happypack/loader",
+            "options": Object {
+              "id": "js-jsx-foo",
+            },
+          },
         ],
       },
     ],
@@ -28,7 +30,12 @@ Object {
         "enabled": true,
         "id": "js-jsx-foo",
         "loaders": Array [
-          "babel-loader?{\\"cacheDirectory\\":true}",
+          Object {
+            "loader": "babel-loader",
+            "options": Object {
+              "cacheDirectory": true,
+            },
+          },
         ],
         "tempDir": ".happypack",
         "threadPool": Object {
@@ -53,19 +60,38 @@ Object {
       },
     },
   ],
+  "resolve": Object {
+    "extensions": Array [
+      ".js",
+      ".json",
+    ],
+  },
+  "stats": Object {
+    "children": false,
+    "chunks": false,
+    "modules": false,
+    "reasons": false,
+  },
 }
 `;
 
 exports[`happypack cssModules 1`] = `
 Object {
   "module": Object {
-    "loaders": Array [],
     "rules": Array [
       Object {
         "test": /\\\\\\.css\\$/,
         "use": Array [
-          "style-loader",
-          "happypack/loader?id=css-foo",
+          Object {
+            "loader": "style-loader",
+            "options": Object {},
+          },
+          Object {
+            "loader": "happypack/loader",
+            "options": Object {
+              "id": "css-foo",
+            },
+          },
         ],
       },
     ],
@@ -82,7 +108,14 @@ Object {
         "enabled": true,
         "id": "css-foo",
         "loaders": Array [
-          "css-loader?importLoaders=1&localIdentName=[name]--[local]--[hash:base64:5]&modules",
+          Object {
+            "loader": "css-loader",
+            "options": Object {
+              "importLoaders": 1,
+              "localIdentName": "[name]--[local]--[hash:base64:5]",
+              "modules": true,
+            },
+          },
         ],
         "tempDir": ".happypack",
         "threadPool": Object {
@@ -107,28 +140,30 @@ Object {
       },
     },
   ],
+  "resolve": Object {
+    "extensions": Array [
+      ".js",
+      ".json",
+    ],
+  },
+  "stats": Object {
+    "children": false,
+    "chunks": false,
+    "modules": false,
+    "reasons": false,
+  },
 }
 `;
 
 exports[`happypack extractText 1`] = `
 Object {
   "module": Object {
-    "loaders": Array [
-      Object {
-        "loaders": Array [
-          "style-loader",
-          "css-loader?importLoaders=1&localIdentName=[name]--[local]--[hash:base64:5]&modules",
-        ],
-        "test": /\\\\\\.css\\$/,
-      },
-    ],
     "rules": Array [
       Object {
-        "exclude": undefined,
         "test": /\\\\\\.css\\$/,
         "use": Array [
           Object {
-  "loader": "foo",
+  "loader": "extract-text-plugin (replaced)",
   "options": Object {
     "id": 1,
     "omit": 1,
@@ -139,7 +174,10 @@ Object {
             "loader": "style-loader",
           },
           Object {
-            "loader": "happypack/loader?id=css-foo",
+            "loader": "happypack/loader",
+            "options": Object {
+              "id": "css-foo",
+            },
           },
         ],
       },
@@ -162,7 +200,14 @@ Object {
         "enabled": true,
         "id": "css-foo",
         "loaders": Array [
-          "css-loader?importLoaders=1&localIdentName=[name]--[local]--[hash:base64:5]&modules",
+          Object {
+            "loader": "css-loader",
+            "options": Object {
+              "importLoaders": 1,
+              "localIdentName": "[name]--[local]--[hash:base64:5]",
+              "modules": true,
+            },
+          },
         ],
         "tempDir": ".happypack",
         "threadPool": Object {
@@ -187,25 +232,51 @@ Object {
       },
     },
   ],
+  "resolve": Object {
+    "extensions": Array [
+      ".js",
+      ".json",
+    ],
+  },
+  "stats": Object {
+    "children": false,
+    "chunks": false,
+    "modules": false,
+    "reasons": false,
+  },
 }
 `;
 
 exports[`happypack not allowed loaders 1`] = `
 Object {
   "module": Object {
-    "loaders": Array [],
     "rules": Array [
       Object {
-        "exclude": Array [
-          /node_modules/,
-        ],
-        "loaders": Array [
-          "babel-loader?{\\"cacheDirectory\\":true}",
-        ],
+        "exclude": /node_modules/,
         "test": /\\\\\\.\\(js\\|jsx\\)\\$/,
+        "use": Array [
+          Object {
+            "loader": "babel-loader",
+            "options": Object {
+              "cacheDirectory": true,
+            },
+          },
+        ],
       },
     ],
   },
   "plugins": Array [],
+  "resolve": Object {
+    "extensions": Array [
+      ".js",
+      ".json",
+    ],
+  },
+  "stats": Object {
+    "children": false,
+    "chunks": false,
+    "modules": false,
+    "reasons": false,
+  },
 }
 `;

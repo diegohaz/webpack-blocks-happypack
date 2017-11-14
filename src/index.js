@@ -1,13 +1,15 @@
 // @flow
 import os from 'os'
 import HappyPack from 'happypack'
-import { group } from '@webpack-blocks/webpack2'
+import differenceWith from 'lodash/differenceWith'
+import isEqual from 'lodash/isEqual'
+import { group } from '@webpack-blocks/webpack'
+import webpackMerge from 'webpack-merge'
 import type { Block, BlockOptions, WebpackBlock } from './types'
 import {
   createHappyConfig,
   createRuleHash,
   createRuleId,
-  getRules,
   getAllowedLoadersPattern,
   extractLoaders,
   extractAllowedLoaders,
@@ -16,16 +18,30 @@ import {
 
 const threadPool = new HappyPack.ThreadPool({ size: os.cpus().length })
 
+
+// Add HappyPack to a block
+// Input: webpack block function -- (context, utils) => prevConfig => newConfig
+// Return new block function
 const happifyBlock = (
   block: WebpackBlock,
   { loaders, ...happypackOptions }: BlockOptions
-): WebpackBlock => (...args): Block => {
-  const compiledBlock = block(...args)
-  const originalRules = getRules(compiledBlock)
+): WebpackBlock => (context, utils) => (prevConfig): Block => {
+  // Compile the inner block and identify any new rules that were added
+  const compiledBlock = block(context, utils)(prevConfig)
+  const originalRules = differenceWith(
+    compiledBlock.module.rules,
+    prevConfig.module.rules,
+    isEqual
+  )
 
-  if (!originalRules) return compiledBlock
+  // No rules were added, so just return compiledBlock (which already incorporates prevConfig)
+  if (!originalRules.length) return compiledBlock
 
+  // 'Clean' compiledBlock.module.rules to remove any new blocks - we'll modify and re-add those
+  // Also extract and remove compiledBlock.plugins
+  compiledBlock.module.rules = differenceWith(compiledBlock.module.rules, originalRules, isEqual)
   const plugins = compiledBlock.plugins || []
+  delete compiledBlock.plugins
 
   const rules = originalRules.map((rule) => {
     const originalLoaders = extractLoaders(rule)
@@ -51,13 +67,14 @@ const happifyBlock = (
     return mergeRule(rule, originalLoaders, allowedLoaders, id)
   })
 
-  return {
-    ...compiledBlock,
+  const newConfig = {
     plugins,
     module: {
       rules,
     },
   }
+
+  return webpackMerge.smart(compiledBlock, newConfig)
 }
 
 /** */
@@ -75,9 +92,7 @@ const happypack = (
   return group(blocks.map(block =>
     Object.assign(happifyBlock(block, options), {
       pre: block.pre,
-      post: []
-        .concat(block.post || [])
-        .map(postHook => happifyBlock(postHook, options)),
+      post: [].concat(block.post || []).map(postHook => happifyBlock(postHook, options)),
     })
   ))
 }

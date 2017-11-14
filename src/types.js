@@ -8,6 +8,7 @@ export type Rule = {
   loader?: Loader | Loader[],
   loaders?: Loader | Loader[],
   use?: Loader | Loader[],
+  options?: Object,
 }
 
 /** */
@@ -28,4 +29,4 @@ export type BlockOptions = {
 }
 
 /** */
-export type WebpackBlock = () => Block
+export type WebpackBlock = (context: any, utils: any) => (prevCongig: any) => Block
