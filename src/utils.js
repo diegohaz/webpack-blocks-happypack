@@ -6,7 +6,7 @@ import flatten from 'lodash/flatten'
 import isEqual from 'lodash/isEqual'
 import uniqWith from 'lodash/uniqWith'
 
-import type { BlockOptions, Loader, Rule, Block } from './types'
+import type { BlockOptions, Loader, Rule } from './types'
 
 export const createHappyConfig = (
   { cache, cacheContext, refresh, ...happypackOptions }: BlockOptions = {}
@@ -30,10 +30,6 @@ export const createRuleHash = (rule: Rule): string =>
 export const createRuleId = (rule: Rule, hash: string): string =>
   `${kebabCase(rule.test.source)}-${hash}`
 
-export const getRules = (block: Block): ?Rule[] => (
-  block.module ? block.module.loaders || block.module.rules : undefined
-)
-
 export const getAllowedLoadersPattern = (allowedLoaders: Loader[]): RegExp =>
   new RegExp(`^(${allowedLoaders.join('|')})`, 'i')
 
@@ -45,13 +41,13 @@ export const extractLoaders = (rule: Rule): Loader[] =>
     ))
   )
 
-export const extractAllowedLoaders = (loaders: any, pattern: RegExp): Loader[] =>
+export const extractAllowedLoaders = (loaders: any[], pattern: RegExp): any[] =>
   loaders
     .map((useEntry) => {
       if (typeof useEntry === 'string') return useEntry
-      const rule = { loader: useEntry.loader }
-      if (useEntry.options) {
-        rule.options = useEntry.options
+      const rule = {
+        loader: useEntry.loader,
+        options: useEntry.options,
       }
       return rule
     })

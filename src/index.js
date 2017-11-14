@@ -25,10 +25,14 @@ const threadPool = new HappyPack.ThreadPool({ size: os.cpus().length })
 const happifyBlock = (
   block: WebpackBlock,
   { loaders, ...happypackOptions }: BlockOptions
-): WebpackBlock => (context, utils): Block => (prevConfig) => {
+): WebpackBlock => (context, utils) => (prevConfig): Block => {
   // Compile the inner block and identify any new rules that were added
   const compiledBlock = block(context, utils)(prevConfig)
-  const originalRules = differenceWith(compiledBlock.module.rules, prevConfig.module.rules, isEqual)
+  const originalRules = differenceWith(
+    compiledBlock.module.rules,
+    prevConfig.module.rules,
+    isEqual
+  )
 
   // No rules were added, so just return compiledBlock (which already incorporates prevConfig)
   if (!originalRules.length) return compiledBlock

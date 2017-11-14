@@ -2,7 +2,6 @@ import {
   createHappyConfig,
   createRuleHash,
   createRuleId,
-  getRules,
   getAllowedLoadersPattern,
   extractLoaders,
   extractAllowedLoaders,
@@ -72,20 +71,6 @@ describe('createRuleId', () => {
       use: ['babel-loader'],
     }, '123')
     expect(id).toBe('jsx-123')
-  })
-})
-
-describe('getRules', () => {
-  it('returns module.loaders', () => {
-    expect(getRules({ module: { loaders: [1, 2, 3] } })).toEqual([1, 2, 3])
-  })
-
-  it('returns module.rules', () => {
-    expect(getRules({ module: { rules: [1, 2, 3] } })).toEqual([1, 2, 3])
-  })
-
-  it('returns undefined', () => {
-    expect(getRules({})).toBeUndefined()
   })
 })
 
