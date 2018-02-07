@@ -58,8 +58,10 @@ const happifyBlock = (
     const plugin = new HappyPack({
       id,
       threadPool,
-      loaders: allowedLoaders,
-      ...createHappyConfig(happypackOptions),
+      ...createHappyConfig({
+        ...happypackOptions,
+        loaders: allowedLoaders,
+      }),
     })
 
     plugins.push(plugin)
@@ -93,8 +95,7 @@ const happypack = (
     Object.assign(happifyBlock(block, options), {
       pre: block.pre,
       post: [].concat(block.post || []).map(postHook => happifyBlock(postHook, options)),
-    })
-  ))
+    })))
 }
 
 module.exports = happypack

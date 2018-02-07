@@ -8,9 +8,9 @@ import uniqWith from 'lodash/uniqWith'
 
 import type { BlockOptions, Loader, Rule } from './types'
 
-export const createHappyConfig = (
-  { cache, cacheContext, refresh, ...happypackOptions }: BlockOptions = {}
-) => ({
+export const createHappyConfig = ({
+  cache, cacheContext, refresh, ...happypackOptions
+}: BlockOptions = {}) => ({
   ...happypackOptions,
   cache: typeof cache !== 'undefined' ? cache : !process.env.DISABLE_HAPPY_CACHE,
   cacheContext: {
@@ -38,8 +38,7 @@ export const extractLoaders = (rule: Rule): Loader[] =>
     .concat(rule.loader || rule.loaders || rule.use || [])
     .map(loader => (
       typeof loader === 'string' ? loader.split('!') : [].concat(loader)
-    ))
-  )
+    )))
 
 export const extractAllowedLoaders = (loaders: any[], pattern: RegExp): any[] =>
   loaders
